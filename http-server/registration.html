@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="index1.css">
+  </head>
+  <body>
+    <div class="spacing1">
+      <div class="container1">
+        <h1>Registration Form</h1>
+        <form id="registrationForm">
+          <label>Name</label><input type="text" id="name" name="name" required>
+          <label>Email</label><input type="email" id="email" name="email" required>
+          <label>Password</label><input type="password" id="password" name="password" required>
+          <label>Date of Birth</label><input type="date" id="dob" name="dob" required>
+          <label><input type="checkbox" id="terms" name="terms">Accept Terms & Conditions</label>
+          <button type="submit">Submit</button>
+          <button type="button" id="clearTableBtn">Clear Table</button></form></div></div>
+    <table id="userTable"><caption><h2>Entries</h2></caption><thead><tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Dob</th>
+          <th>Accepted terms?</th>
+        </tr></thead><tbody id="userTableBody"></tbody></table>
+    <script src="index1.js"></script></body></html>
