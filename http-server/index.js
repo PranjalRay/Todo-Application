@@ -41,7 +41,9 @@ fs.readFile("index1.js", (er, js) => {
   }
   jsC = js;
 });
-const port = process.argv[2] || 5000;
+const args = process.argv.slice(2);
+const portIndex = args.findIndex(arg => arg === "--port");
+const port = portIndex !== -1 ? args[portIndex + 1] : 5000;
 http
   .createServer((request, response) => {
     let ur = request.url;
