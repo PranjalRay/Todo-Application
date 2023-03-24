@@ -41,7 +41,7 @@ fs.readFile("index1.js", (er, js) => {
   }
   jsC = js;
 });
-
+const port = process.argv[2] || 5000;
 http
   .createServer((request, response) => {
     let ur = request.url;
@@ -73,4 +73,6 @@ http
 
     response.end();
   })
-  .listen(5000);
+  .listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
