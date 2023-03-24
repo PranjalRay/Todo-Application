@@ -1,6 +1,6 @@
 const http = require("http");
 const fs = require("fs");
-
+const argv=require("minimist")(process.argv.slice(2));
 let homeC = "";
 let projectC = "";
 let registrationC = "";
@@ -41,9 +41,7 @@ fs.readFile("index1.js", (er, js) => {
   }
   jsC = js;
 });
-const args = process.argv.slice(2);
-const portIndex = args.findIndex(arg => arg === "--port");
-const port = portIndex !== -1 ? args[portIndex + 1] : 5000;
+const port= argv.port||5000;
 http
   .createServer((request, response) => {
     let ur = request.url;
