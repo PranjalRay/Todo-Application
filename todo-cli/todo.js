@@ -6,7 +6,9 @@ const todoList = () => {
   const markAsComplete = (index) => {
     all[index].completed = true
   }
-
+  const formattedDate = d => {
+    return d.toISOString().split("T")[0]
+    }
   const overdue = () => {
     const today = new Date().toISOString().split('T')[0]
     return all.filter(item => !item.completed && item.dueDate < today)
@@ -45,5 +47,4 @@ return {
   toDisplayableList
 };
 };
-
-module.exports = todoList;
+module.exports=todoList
