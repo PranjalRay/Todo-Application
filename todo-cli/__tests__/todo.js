@@ -1,30 +1,46 @@
-const todoList = require("../todo");
-const { all, add, markAsComplete, overdue, dueToday, dueLater } = todoList();
-describe("Todo Manager Test Suite", () => {
-  var dateToday = new Date();
-  const today = dateToday.toLocaleDateString("en-CA");
-  let yesterday = new Date(new Date().setDate(dateToday.getDate() - 1));
-  yesterday = yesterday.toLocaleDateString("en-CA");
-  let tomorrow = new Date(new Date().setDate(dateToday.getDate() + 1));
-  tomorrow = tomorrow.toLocaleDateString("en-CA");
-  test("Add task", () => {
-    expect(all.length).toBe(0);
-    add({ title: "To Learn JS", dueDate: today, completed: false });
-    expect(all.length).toBe(1);
-  });
-  test("Marking Task to be Complete", () => {
-    markAsComplete(0);
-    expect(all[0].completed).toBe(true);
-  });
-  test("Getting DueToday Tasks", () => {
-    expect(dueToday().length).toBe(1);
-  });
-  test("Getting DueLater Tasks", () => {
-    add({ title: "To Learn JS", dueDate: tomorrow, completed: false });
-    expect(dueLater().length).toBe(1);
-  });
-  test("Getting Overdue Tasks", () => {
-    add({ title: "To Learn JS", dueDate: yesterday, completed: false });
-    expect(overdue().length).toBe(1);
-  });
-});
+const todoList=require('../todo')
+describe('Todo List Test Suite',()=>{
+  let todos
+  const Today=new Date()
+  const ODay=60*60*24*1000
+  const Yesterday=new Date(Today.getTime()-(1*ODay))
+  const Tomorrow=new Date(Today.getTime()+(1*ODay))
+  beforeEach(() => {
+    todos=todoList()
+  })
+  test('creating a new todo',()=>{
+    const InitialCount=todos.all.length
+    todos.add({title:'First Todo',dueDate:Tomorrow.toISOString().slice(0,10),completed:false})
+    expect(todos.all.length).toBe(InitialCount+1)
+  })
+  test('marking a todo as completed',()=>{
+    const todo={title:'First Todo',dueDate:Tomorrow.toISOString().slice(0,10),completed:false}
+    todos.add(todo)
+    const index=todos.all.findIndex(item=>item===todo)
+    todos.markAsComplete(index)
+    expect(todos.all[index].completed).toBe(true)
+  })
+  test('retrieval of overdue items',()=>{
+    todos.add({title:'Overdue Todo',dueDate:Yesterday.toISOString().slice(0,10),completed:false})
+    todos.add({title:'DueToday Todo',dueDate:Today.toISOString().slice(0,10),completed:false})
+    const OverdueCount=todos.overdue().length
+    todos.add({title:'Overdue Todo 2',dueDate:Yesterday.toISOString().slice(0,10),completed:false})
+    expect(todos.overdue().length).toBe(OverdueCount+1)
+  })
+  test('retrieval of due today items',()=>{
+    todos.add({title:'Overdue Todo',dueDate:Yesterday.toISOString().slice(0,10),completed:false})
+    todos.add({title:'DueToday Todo',dueDate:Today.toISOString().slice(0,10),completed:false})
+    const DueTodayCount=todos.dueToday().length
+    todos.add({title:'DueToday Todo new',dueDate:Today.toISOString().slice(0,10),completed:false})
+    expect(todos.dueToday().length).toBe(DueTodayCount+1)
+  })
+
+  test('retrieval of due later items',()=>{
+    todos.add({title:'Overdue Todo',dueDate:Yesterday.toISOString().slice(0,10),completed:false})
+    todos.add({title:'DueToday Todo',dueDate:Today.toISOString().slice(0,10),completed:false})
+    todos.add({title:'DueLater Todo',dueDate:Tomorrow.toISOString().slice(0,10),completed:false})
+    const DueLaterCount=todos.dueLater().length
+    todos.add({title:'DueLater Todo new',dueDate:Tomorrow.toISOString().slice(0,10),completed:false})
+    expect(todos.dueLater().length).toBe(DueLaterCount+1)
+  })
+})
