@@ -11,19 +11,19 @@ module.exports = (sequelize, DataTypes) => {
     static async showList() {
       console.log("My Todo list \n");
       console.log("Overdue");
-      const overdueList = await Todo.overdue();
-      const overdueItems = overdueList.map((todo) => todo.displayableString());
-      console.log(overdueItems.join("\n").trim());
+      const overdueList1 = await Todo.overdue();
+      const overdueItems1 = overdueList1.map((todo) => todo.displayableString());
+      console.log(overdueItems1.join("\n").trim());
       console.log("\n");
       console.log("Due Today");
-      const dueTodayList = await Todo.dueToday();
-      const dueTodayItems = dueTodayList.map((todo) => todo.displayableString());
-      console.log(dueTodayItems.join("\n").trim());
+      const dueTodayList1 = await Todo.dueToday();
+      const dueTodayItems1 = dueTodayList1.map((todo) => todo.displayableString());
+      console.log(dueTodayItems1.join("\n").trim());
       console.log("\n");
       console.log("Due Later");
-      const dueLaterList = await Todo.dueLater();
-      const dueLaterItems = dueLaterList.map((todo) => todo.displayableString());
-      console.log(dueLaterItems.join("\n").trim());
+      const dueLaterList1 = await Todo.dueLater();
+      const dueLaterItems1 = dueLaterList1.map((todo) => todo.displayableString());
+      console.log(dueLaterItems1.join("\n").trim());
     }
 
     static async overdue() {
@@ -72,8 +72,8 @@ module.exports = (sequelize, DataTypes) => {
 
     displayableString() {
       let checkbox = this.completed ? "[x]" : "[ ]";
-      const day = new Date(this.dueDate);
-      return day.getDate() === new Date().getDate()
+      const day1 = new Date(this.dueDate);
+      return day1.getDate() === new Date().getDate()
         ? `${this.id}. ${checkbox} ${this.title}`.trim()
         : `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`.trim();
     }
