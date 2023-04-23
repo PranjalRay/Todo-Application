@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Todo App</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <% include header.ejs %>
+
+  <h2>Todos:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Due Date</th>
+        <th>Completed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% todos.forEach((todo) => { %>
+        <tr>
+          <td><%= todo.title %></td>
+          <td><%= todo.dueDate %></td>
+          <td><%= todo.completed %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <% include footer.ejs %>
+</body>
+</html>
