@@ -1,8 +1,8 @@
 {
-  "name": "todo-cli",
+  "name": "todo-app",
   "version": "1.0.0",
   "description": "",
-  "main": "todo.js",
+  "main": "index.js",
   "scripts": {
     "start": "nodemon -e js,ejs",
     "start:prod": "node index.js",
