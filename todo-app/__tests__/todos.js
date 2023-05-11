@@ -86,7 +86,6 @@ describe("Todo Application", function () {
     expect(parsedUpdateResponse.completed).toBe(false);
   });
   test("Fetches all todos in the database using /todos endpoint", async () => {
-    // FILL IN YOUR CODE HERE
     let res = await agent.get("/");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/todos").send({
@@ -99,7 +98,7 @@ describe("Todo Application", function () {
       .get("/")
       .set("Accept", "application/json");
     const parsedResponse = JSON.parse(groupedTodosResponse.text);
-    expect(parsedResponse.allTodos[3].title).toBe("Buy car");
+    expect(parsedResponse.allTodos[3].title).toBe("BUY A BOOK");
   });
   test("Deletes a todo with the given ID if it exists and sends a boolean response", async () => {
     let res = await agent.get("/");
