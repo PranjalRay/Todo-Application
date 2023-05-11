@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     static addTodo({ title, dueDate }) {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
-
     static getTodos() {
       return this.findAll();
     }
@@ -23,6 +22,36 @@ module.exports = (sequelize, DataTypes) => {
     }
     deleteTodo() {
       return this.destroy();
+    }
+    static async overdue() {
+      return Todo.findAll({
+        where: {
+          dueDate: {
+            [Op.lt]: new Date(),
+          },
+        },
+        order: [["id", "ASC"]],
+      });
+    }
+    static async dueToday() {
+      return Todo.findAll({
+        where: {
+          dueDate: {
+            [Op.eq]: new Date(),
+          },
+        },
+        order: [["id", "ASC"]],
+      });
+    }
+    static async dueLater() {
+      return Todo.findAll({
+        where: {
+          dueDate: {
+            [Op.gt]: new Date(),
+          },
+        },
+        order: [["id", "ASC"]],
+      });
     }
   }
   Todo.init(
