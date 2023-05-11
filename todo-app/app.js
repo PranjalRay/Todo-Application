@@ -5,34 +5,27 @@ const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const path = require("path");
-
-// Set EJS as view engine
 app.set("view engine", "ejs");
-// eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
-
-// const todos = [
-//   { id: 1, title: "Buy clothes" },
-//   { id: 2, title: "visit school" },
-//   { id: 3, title: "Clean garden" },
-// ];
-
+const todos = [
+  { id: 1, title: "BUY CLOTHES" },
+  { id: 2, title: "VISIT SCHOOL" },
+  { id: 3, title: "CLEAN GARDEN" },
+];
 app.get("/", async function (request, response) {
   const allTodos = await Todo.getTodos();
   if (request.accepts("html")) {
     response.render("index", {
-      allTodos,
+      todos,
     });
   } else {
     response.json({
-      allTodos,
+      todos,
     });
   }
 });
-
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos");
-  // FILL IN YOUR CODE HERE
   try {
     const todo = await Todo.findAll();
     return response.json(todo);
@@ -40,12 +33,7 @@ app.get("/todos", async function (_request, response) {
     console.log(error);
     return response.status(422).json(error);
   }
-
-  // First, we have to query our PostgerSQL database using Sequelize to get list of all Todos.
-  // Then, we have to respond with all Todos, like:
-  // response.send(todos)
 });
-
 app.get("/todos/:id", async function (request, response) {
   try {
     const todo = await Todo.findByPk(request.params.id);
@@ -55,7 +43,6 @@ app.get("/todos/:id", async function (request, response) {
     return response.status(422).json(error);
   }
 });
-
 app.post("/todos", async function (request, response) {
   console.log("Creating a todo", request.body);
   try {
@@ -70,7 +57,6 @@ app.post("/todos", async function (request, response) {
     return response.status(422).json(error);
   }
 });
-
 app.put("/todos/:id/markAsCompleted", async function (request, response) {
   const todo = await Todo.findByPk(request.params.id);
   try {
@@ -81,10 +67,8 @@ app.put("/todos/:id/markAsCompleted", async function (request, response) {
     return response.status(422).json(error);
   }
 });
-
 app.delete("/todos/:id", async function (request, response) {
   console.log("We have to delete a Todo with ID: ", request.params.id);
-  // FILL IN YOUR CODE HERE
   try {
     const todo = await Todo.findByPk(request.params.id);
     if (todo) {
@@ -97,10 +81,5 @@ app.delete("/todos/:id", async function (request, response) {
     console.log(error);
     return response.status(422).json(error);
   }
-
-  // First, we have to query our database to delete a Todo by ID.
-  // Then, we have to respond back with true/false based on whether the Todo was deleted or not.
-  // response.send(true)
 });
-
 module.exports = app;
