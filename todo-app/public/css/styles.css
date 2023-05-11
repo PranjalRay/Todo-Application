@@ -4,7 +4,9 @@ body {
   margin: 0;
   padding: 0;
 }
-
+.Todo-Item:hover .trash-icon {
+  display: block;
+}
 /* Header styles */
 header {
   background-color: #333;
