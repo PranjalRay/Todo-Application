@@ -57,7 +57,7 @@ describe("Todo application", function () {
     const res = await agent.get("/todos");
     const csrfToken = extractCsrfToken(res);
     const response = await agent.post("/todos").send({
-      title: "Buy milk",
+      title: "Buy Toys",
       dueDate: new Date().toISOString(),
       completed: false,
       _csrf: csrfToken,
@@ -70,7 +70,7 @@ describe("Todo application", function () {
     let res = await agent.get("/todos");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/todos").send({
-      title: "Buy book",
+      title: "Buy Food",
       dueDate: new Date().toISOString(),
       completed: false,
       _csrf: csrfToken,
