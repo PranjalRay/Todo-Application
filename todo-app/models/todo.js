@@ -10,72 +10,102 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
     }
-    static addTodo({ title, dueDate }) {
-      return this.create({ title: title, dueDate: dueDate, completed: false });
+    static addTodo({ title, dueDate, userId }) {
+      return this.create({
+        title: title,
+        dueDate: dueDate,
+        completed: false,
+        userId,
+      });
     }
     static getTodos() {
       return this.findAll();
     }
     setCompletionStatus(complete) {
-      return this.update({ completed: !complete });
+      const setComplete = complete === true ? false : true;
+      return this.update({ completed: setComplete });
     }
     deleteTodo() {
       return this.destroy();
     }
-    static completedItems() {
+    static completedItems(userId) {
       return Todo.findAll({
         where: {
           completed: true,
+          userId,
         },
       });
     }
-    static async overdue() {
+    static async overdue(userId) {
       return Todo.findAll({
         where: {
           dueDate: {
             [Op.lt]: new Date(),
           },
+          userId,
           completed: false,
         },
         order: [["id", "ASC"]],
       });
     }
-    static async dueToday() {
+    static async dueToday(userId) {
       return Todo.findAll({
         where: {
           dueDate: {
             [Op.eq]: new Date(),
           },
+          userId,
           completed: false,
         },
         order: [["id", "ASC"]],
       });
     }
-    static async dueLater() {
+    static async dueLater(userId) {
       return Todo.findAll({
         where: {
           dueDate: {
             [Op.gt]: new Date(),
           },
+          userId,
           completed: false,
         },
         order: [["id", "ASC"]],
       });
     }
-    static async remove(id) {
+    static async remove(id, userId) {
       return this.destroy({
         where: {
           id,
+          userId,
         },
       });
     }
   }
   Todo.init(
     {
-      title: DataTypes.STRING,
-      dueDate: DataTypes.DATEONLY,
-      completed: DataTypes.BOOLEAN,
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: true,
+          len: 5,
+        },
+      },
+      dueDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+          isDate: true,
+        },
+      },
+      completed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
