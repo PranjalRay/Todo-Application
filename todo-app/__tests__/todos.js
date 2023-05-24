@@ -135,7 +135,7 @@ describe("Todo application", function () {
       .get("/todos")
       .set("Accept", "application/json");
     const parsedResponse = JSON.parse(groupedTodosResponse.text);
-    expect(parsedResponse.allTodos[3].title).toBe("Buy car");
+    expect(parsedResponse.allTodos[3].title).toBe("See IPL Match");
   });
   test("Deletes Todo with given ID if it exists and sends a boolean response", async () => {
     const agent = request.agent(server);
