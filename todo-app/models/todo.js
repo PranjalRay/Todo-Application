@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       Todo.belongsTo(models.User, {
         foreignKey: 'userId'
       })
+      // define association here
     }
     static addTodo({title, dueDate, userId}) {
       return this.create({ title: title, dueDate: dueDate, completed: false, userId });
@@ -24,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
           userId
         },
       });
-    }
     static async remove(id) {
       return this.destroy({
         where: {
