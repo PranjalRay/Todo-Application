@@ -7,7 +7,7 @@ var cookieParser = require("cookie-parser");
 const path = require("path");
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser("shh! some secret string"));
+app.use(cookieParser("shh! Some Secret String"));
 app.use(csrf({ cookie: true}));
 const passport = require('passport') 
 const connectEnsureLogin = require('connect-ensure-login'); 
@@ -20,7 +20,7 @@ const saltRounds = 10;
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({
-  secret: "MYKEY-2001",
+  secret: "mYsCrtkEy-@",
   cookie: {
     maxAge: 24*60*60*1000
   }
@@ -66,7 +66,7 @@ passport.deserializeUser((id, done) => {
 });
 app.get("/", async (request, response) => {
     response.render("index", {
-      title: "Todo Application",
+      title: "Todo application",
       csrfToken: request.csrfToken(),
     });
 });
@@ -79,7 +79,7 @@ app.get("/todos", connectEnsureLogin.ensureLoggedIn(), async (request, response)
   const allTodos = await Todo.getTodos(loggedInUser);
   if (request.accepts("html")) {
     response.render("todos", {
-      title: "Todo Application",
+      title: "Todo application",
       overdue,
       dueToday,
       dueLater,
@@ -97,14 +97,14 @@ app.get("/todos", connectEnsureLogin.ensureLoggedIn(), async (request, response)
   }
 });
 app.get("/signup", (request, response) => {
-  response.render("Sign-Up", {title: "Signup", csrfToken: request.csrfToken()})
+  response.render("signup", {title: "Signup", csrfToken: request.csrfToken()})
 })
 
 app.post("/users", async (request, response) => {
   const { firstname, lastname, email, password } = request.body;
   const errors = [];
   if (!firstname) {
-    errors.push("First Name is required");
+    errors.push("First name is required");
   }
   if (!email) {
     errors.push("Email is required");
@@ -113,7 +113,7 @@ app.post("/users", async (request, response) => {
     errors.push("Password is required");
   }
   if (errors.length > 0) {
-    request.flash("Error", errors);
+    request.flash("error", errors);
     return response.redirect("/signup");
   }
   try {
@@ -127,7 +127,7 @@ app.post("/users", async (request, response) => {
     request.login(user, (err) => {
       if (err) {
         console.log(err);
-        request.flash("error", "An error occurred during Login.");
+        request.flash("error", "An error occurred during login.");
         return response.redirect("/login");
       }
       response.redirect("/todos");
@@ -139,7 +139,7 @@ app.post("/users", async (request, response) => {
   }
 });
 app.get("/login", (request, response) => {
-  response.render("Login", { title: "login", csrfToken: request.csrfToken()});
+  response.render("login", { title: "login", csrfToken: request.csrfToken()});
 })
 app.post("/session", passport.authenticate('local', { failureRedirect: "/login", failureFlash: true}), (request, response) => {
   response.redirect("/todos");
@@ -163,8 +163,9 @@ app.get("/todos/:id", connectEnsureLogin.ensureLoggedIn(), async function (reque
 });
 app.post("/todos", connectEnsureLogin.ensureLoggedIn(), async function (request, response) {
   const { title, dueDate } = request.body;
+  
   if (!title || !dueDate) {
-    request.flash("error", "Title and Due Date are required");
+    request.flash("error", "Title and Due date are required");
     return response.redirect("/todos");
   }
   try {
@@ -190,7 +191,7 @@ app.put("/todos/:id", connectEnsureLogin.ensureLoggedIn(), async function (reque
   }
 });
 app.delete("/todos/:id", connectEnsureLogin.ensureLoggedIn(), async function (request, response) {
-  console.log("Delete Todo with ID: ", request.params.id);
+  console.log("Delete a Todo with ID: ", request.params.id);
   try {
     const todo = await Todo.findByPk(request.params.id);
     if (!todo || todo.userId !== request.user.id) {
