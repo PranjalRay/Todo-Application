@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
           userId
         },
       });
+    }
      static async remove(id) {
       return this.destroy({
         where: {
