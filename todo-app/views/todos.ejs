@@ -10,7 +10,7 @@
         <script>
           var token = document
             .querySelector('meta[name="csrf-token"]')
-            .getAttribute("content");         
+            .getAttribute("content");    
           function updateTodo(id) {
             const bool = document.querySelector(`#todo-checkbox-${id}`).checked
             fetch(`/todos/${id}`, {
@@ -74,7 +74,7 @@
                 <script>
                   const form = document.getElementById('todoForm');
                   const titleInput = document.getElementById('titleInput');
-                  const dueDateInput = document.getElementById('dueDateInput');          
+                  const dueDateInput = document.getElementById('dueDateInput');
                   form.addEventListener('submit', (event) => {
                     // Prevent form submission if title or due date are empty
                     if (titleInput.value.trim() === '' || dueDateInput.value.trim() === '') {
